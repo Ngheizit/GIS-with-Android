@@ -15,6 +15,11 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+
+        /* 将项目Gradle存储库更新为Esri的Bintray maven存储库 */
+        maven{
+            url 'https://esri.bintray.com/arcgis'
+        }
     }
 }
 
