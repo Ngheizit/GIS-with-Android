@@ -11,6 +11,7 @@ import android.support.v7.view.ActionMode;
 import android.text.Layout;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -53,7 +54,7 @@ public class DirActivity extends AppCompatActivity {
             }
         });
 
-        this.CreateItem(R.id.dir_item_myGithub, "Personal Github", "个人网站：Ngheizit");
+        this.CreateItem(R.id.dir_item_myGithub, "Personal Github", "Github账户：Ngheizit");
         LinearLayout ll_myGithub = (LinearLayout)findViewById(R.id.dir_item_myGithub);
         ll_myGithub.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,16 +77,17 @@ public class DirActivity extends AppCompatActivity {
         rl.setBackgroundResource(R.drawable.corsers_bg);
         rl.setPadding(10,5,10,5);
         rl.setOrientation(LinearLayout.VERTICAL);
+
         LinearLayout ll_dirList = (LinearLayout)findViewById(R.id.ll_dirList);
         ll_dirList.addView(rl);
 
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)rl.getLayoutParams();
         params.topMargin = 15;
-        params.height = 125;
         rl.setLayoutParams(params);
 
         TextView tv_title = new TextView(this);
+        tv_title.setHeight(50);
         tv_title.setText(title);
         tv_title.setTextAppearance(this, R.style.DirListItem_title);
         rl.addView(tv_title);
@@ -98,6 +100,16 @@ public class DirActivity extends AppCompatActivity {
         rl.setId(id);
     }
 
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Toast.makeText(getApplicationContext(), "!", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
 
 //    @Override
 //    protected void onPause(){
