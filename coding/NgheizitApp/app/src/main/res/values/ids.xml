@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <item name="dir_item_mgWebsite" type="id">dir_item_mgWebsite</item>
+    <item name="dir_item_myGithub" type="id">dir_item_myGithub</item>
+</resources>

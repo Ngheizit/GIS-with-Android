@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         et_username = (EditText)findViewById(R.id.et_username);
         et_password = (EditText)findViewById(R.id.et_passwold);
         Button btn_signIn = (Button)findViewById(R.id.btn_signin);
+        Button btn_jumpOver = (Button)findViewById(R.id.btn_jump);
+
+        // 点击登录按钮事件
         btn_signIn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -52,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 点击跳过按钮事件
+        btn_jumpOver.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), DirActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

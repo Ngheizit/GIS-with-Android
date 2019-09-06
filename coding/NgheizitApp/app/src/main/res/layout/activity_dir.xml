@@ -11,4 +11,32 @@
     <!--</com.esri.arcgisruntime.mapping.view.MapView>-->
 
 
+    <!-- 目录集 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:id="@+id/ll_dirList">
+
+
+    </LinearLayout>
+
+    <!-- 底部信息 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:background="#89000000"
+            android:textColor="#89ffffff"
+            android:padding="2dp"
+            android:text="@string/copyright"/>
+
+    </RelativeLayout>
+
 </LinearLayout>

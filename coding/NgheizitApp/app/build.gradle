@@ -25,17 +25,17 @@ android {
     }
 
     /* 添加Java8编译选项 */
-    compileOptions{
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+//    compileOptions{
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 
 }
 
 dependencies {
 
     /* 更新app模块Gradle依赖项，以包含ArcGIS Runtime SDK for Android依赖项 */
-    compile 'com.esri.arcgisruntime:arcgis-android:100.6.0'
+//    compile 'com.esri.arcgisruntime:arcgis-android:100.6.0'
 
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
