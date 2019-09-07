@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<RelativeLayout
     android:id="@+id/body"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,112 +8,149 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.pc_08.myapplication.MainActivity"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:background="@drawable/pens"
-    android:paddingTop="25dp">
+    android:paddingTop="25dp"
+    android:orientation="vertical">
 
-
-    <!--登录界面辅助样式-->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="120dp" 
-        android:src="@drawable/earyh"
-        android:layout_margin="20dp"/>
-    <TextView
+        android:id="@+id/book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign in to WxzHub"
-        android:textSize="28sp"
-        android:layout_marginBottom="20dp"/>
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="3dp"
+        android:src="@drawable/book"/>
 
-
-
-    <!--表单-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <!--登录界面辅助样式-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_height="150dp"
+                android:src="@drawable/pig"
+                android:layout_marginTop="20dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_height="150dp"
+                android:src="@drawable/pig2"
+                android:layout_marginTop="20dp"/>
+
+        </LinearLayout>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username:"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
-        <EditText
-            android:id="@+id/et_username"
+            android:text="Sign in to WxzHub"
+            android:textSize="28sp"
+            android:layout_marginBottom="20dp"/>
+
+
+
+        <!--表单-->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Please enter username...  "/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password:"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
-
-        <EditText
-            android:id="@+id/et_passwold"
+            android:orientation="vertical"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Username:"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
+            <EditText
+                android:id="@+id/et_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Please enter username...  "/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Please enter password...  "/>
-    </LinearLayout>
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp">
 
-    <!-- 按钮 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password:"
+                android:textSize="20sp"
+                android:textColor="@color/black"/>
 
-        <!--登录按钮-->
-        <Button
-            android:id="@+id/btn_signin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_marginTop="15dp"
-            android:text="Sign in"/>
+            <EditText
+                android:id="@+id/et_passwold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Please enter password...  "/>
+        </LinearLayout>
 
-        <!-- 跳过登录按钮 -->
-        <Button
-            android:id="@+id/btn_jump"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_marginTop="15dp"
-            android:text="Jump over"/>
-
-    </LinearLayout>
-
-    <!-- 底部信息 -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
+        <!-- 按钮 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:background="#89000000"
-            android:textColor="#89ffffff"
-            android:padding="2dp"
-            android:text="@string/copyright"/>
+            android:orientation="horizontal"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp">
 
-    </RelativeLayout>
-</LinearLayout>
+            <!--登录按钮-->
+            <Button
+                android:id="@+id/btn_signin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginTop="15dp"
+                android:text="Sign in"/>
+
+            <!-- 跳过登录按钮 -->
+            <Button
+                android:id="@+id/btn_jump"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginTop="15dp"
+                android:text="Jump over"/>
+
+        </LinearLayout>
+
+
+        <!-- 底部信息 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:background="#89000000"
+                android:textColor="#89ffffff"
+                android:padding="2dp"
+                android:text="@string/copyright"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>
 
 

@@ -5,6 +5,7 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,7 +17,7 @@ import java.security.PublicKey;
 public class MainActivity extends AppCompatActivity {
 
 
-    private LinearLayout body;
+    private ImageView img_book;
 
     private EditText et_username;
     private EditText et_password;
@@ -29,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         /* 设置背景图片透明度 0 - 255 */
-        body = (LinearLayout)findViewById(R.id.body);
-        body.getBackground().setAlpha(100);
+        img_book = (ImageView) findViewById(R.id.book);
+        img_book.setAlpha(100);
 
 
         et_username = (EditText)findViewById(R.id.et_username);

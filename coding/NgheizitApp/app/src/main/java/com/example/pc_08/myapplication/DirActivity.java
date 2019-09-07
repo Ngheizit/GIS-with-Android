@@ -43,6 +43,9 @@ public class DirActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "W e l c o m e ~", Toast.LENGTH_SHORT).show();
 
+
+
+
         this.CreateItem(R.id.dir_item_mgWebsite, "Personal Website", "个人网站：ngheizit.fun");
         LinearLayout ll_myWebsite = (LinearLayout)findViewById(R.id.dir_item_mgWebsite);
         ll_myWebsite.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +57,8 @@ public class DirActivity extends AppCompatActivity {
             }
         });
 
+
+
         this.CreateItem(R.id.dir_item_myGithub, "Personal Github", "Github账户：Ngheizit");
         LinearLayout ll_myGithub = (LinearLayout)findViewById(R.id.dir_item_myGithub);
         ll_myGithub.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +69,8 @@ public class DirActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
 
 
@@ -83,11 +90,13 @@ public class DirActivity extends AppCompatActivity {
 
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)rl.getLayoutParams();
+        params.height = LinearLayout.LayoutParams.WRAP_CONTENT;
         params.topMargin = 15;
         rl.setLayoutParams(params);
 
         TextView tv_title = new TextView(this);
-        tv_title.setHeight(50);
+        // tv_title.setHeight(50);
+        tv_title.setPadding(0, 0, 0, 10);
         tv_title.setText(title);
         tv_title.setTextAppearance(this, R.style.DirListItem_title);
         rl.addView(tv_title);
