@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         et_password = (EditText)findViewById(R.id.et_passwold);
         Button btn_signIn = (Button)findViewById(R.id.btn_signin);
         Button btn_jumpOver = (Button)findViewById(R.id.btn_jump);
+        Button btn_note = (Button)findViewById(R.id.btn_note);
 
         // 点击登录按钮事件
         btn_signIn.setOnClickListener(new View.OnClickListener(){
@@ -61,6 +62,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(getApplicationContext(), DirActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // 点击好玩按钮事件
+        btn_note.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
                 startActivity(intent);
             }
         });

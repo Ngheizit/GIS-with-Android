@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DirActivity"></activity>
+        <activity android:name=".NoteActivity"></activity>
     </application>
 
 </manifest>
