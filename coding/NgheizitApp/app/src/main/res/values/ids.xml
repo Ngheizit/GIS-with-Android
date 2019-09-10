@@ -2,4 +2,5 @@
 <resources>
     <item name="dir_item_mgWebsite" type="id">dir_item_mgWebsite</item>
     <item name="dir_item_myGithub" type="id">dir_item_myGithub</item>
+    <item name="dir_item_callphone" type="id">dir_item_callphone</item>
 </resources>

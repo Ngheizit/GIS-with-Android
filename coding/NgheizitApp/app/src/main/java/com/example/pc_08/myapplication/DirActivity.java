@@ -44,6 +44,15 @@ public class DirActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "W e l c o m e ~", Toast.LENGTH_SHORT).show();
 
 
+        this.CreateItem(R.id.dir_item_callphone, "Call Phone", "拨号");
+        LinearLayout ll_callphone = (LinearLayout)findViewById(R.id.dir_item_callphone);
+        ll_callphone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CallphoneActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         this.CreateItem(R.id.dir_item_mgWebsite, "Personal Website", "个人网站：ngheizit.fun");

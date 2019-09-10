@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp">
+
+        <EditText
+            android:id="@+id/et_phonenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Number..."/>
+
+        <Button
+            android:id="@+id/btn_callphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="call"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 底部信息 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:background="#89000000"
+            android:textColor="#89ffffff"
+            android:padding="2dp"
+            android:text="@string/copyright"/>
+
+    </RelativeLayout>
+</LinearLayout>

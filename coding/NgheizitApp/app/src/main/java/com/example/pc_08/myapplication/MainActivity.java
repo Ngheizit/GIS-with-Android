@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* 设置背景图片透明度 0 - 255 */
+        /* 设置图片透明度 0 - 255 */
         img_book = (ImageView) findViewById(R.id.book);
         img_book.setAlpha(100);
 

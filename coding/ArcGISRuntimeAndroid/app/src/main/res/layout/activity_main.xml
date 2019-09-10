@@ -13,15 +13,15 @@
     <com.esri.arcgisruntime.mapping.view.MapView
             android:id="@+id/axMapView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
+            android:layout_height="0dp"
+            android:layout_weight="7">
     </com.esri.arcgisruntime.mapping.view.MapView>
 
     <com.esri.arcgisruntime.mapping.view.SceneView
             android:id="@+id/axSceneView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5">
+            android:layout_height="0dp"
+            android:layout_weight="3">
     </com.esri.arcgisruntime.mapping.view.SceneView>
 
 
