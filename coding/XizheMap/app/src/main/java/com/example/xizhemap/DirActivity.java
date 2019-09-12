@@ -24,6 +24,10 @@ public class DirActivity extends AppCompatActivity implements View.OnClickListen
                 intent = new Intent(getApplicationContext(), DisplayDeviceLocationActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.dir_items_ChangeSublayerVisibility:
+                intent = new Intent(getApplicationContext(), ChangeSublayerVisibilityActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -32,9 +36,9 @@ public class DirActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dir);
 
-        CreateItem(R.id.dir_items_AddFeatures, "Add features (Feature Service)", "Add new features to an online feature service");
+        CreateItem(R.id.dir_items_AddFeatures, "Add features", "Add new features to an online feature service");
         CreateItem(R.id.dir_items_DisplayDeviceLocation, "Display Device Location", "Show Location from device");
-
+        CreateItem(R.id.dir_items_ChangeSublayerVisibility, "Change Sublayer Visibility", "Toggle visibility of the map's sublayers");
 
 
 

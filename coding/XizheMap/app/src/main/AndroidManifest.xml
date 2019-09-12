@@ -23,6 +23,7 @@
         <activity android:name=".DirActivity" />
         <activity android:name=".AddFeaturesActivity" />
         <activity android:name=".DisplayDeviceLocationActivity" />
+        <activity android:name=".ChangeSublayerVisibilityActivity" />
 
     </application>
 
