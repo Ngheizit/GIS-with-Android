@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-</LinearLayout>
+    <com.esri.arcgisruntime.mapping.view.MapView
+            android:id="@+id/axMapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+    </com.esri.arcgisruntime.mapping.view.MapView>
+
+    <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="22dp"
+            android:background="#00000000"
+            android:popupBackground="#00000000"/>
+
+</RelativeLayout>
