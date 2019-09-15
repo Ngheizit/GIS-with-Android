@@ -29,6 +29,7 @@
         <activity android:name=".AddFeaturesActivity" />
         <activity android:name=".DisplayDeviceLocationActivity" />
         <activity android:name=".ChangeSublayerVisibilityActivity" />
+        <activity android:name=".QuestionActivity" />
 
     </application>
 
