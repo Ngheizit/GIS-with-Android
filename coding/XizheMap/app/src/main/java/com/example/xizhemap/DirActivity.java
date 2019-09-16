@@ -32,6 +32,10 @@ public class DirActivity extends AppCompatActivity implements View.OnClickListen
                 intent = new Intent(getApplicationContext(), QuestionActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.dir_items_Location:
+                intent = new Intent(getApplicationContext(), LocationActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -44,6 +48,7 @@ public class DirActivity extends AppCompatActivity implements View.OnClickListen
         CreateItem(R.id.dir_items_DisplayDeviceLocation, "Display Device Location", "Show Location from device");
         CreateItem(R.id.dir_items_ChangeSublayerVisibility, "Change Sublayer Visibility", "Toggle visibility of the map's sublayers");
         CreateItem(R.id.dir_items_Question, "课程知识点汇总", "Questions");
+        CreateItem(R.id.dir_items_Location, "Location Test", "动态获取GPS定位点");
 
 
 

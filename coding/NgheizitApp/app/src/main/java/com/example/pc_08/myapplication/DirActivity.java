@@ -43,6 +43,15 @@ public class DirActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "W e l c o m e ~", Toast.LENGTH_SHORT).show();
 
+        this.CreateItem(R.id.dir_item_getInternet, "网络请求", "第三周");
+        LinearLayout ll_getInternet = (LinearLayout)findViewById(R.id.dir_item_getInternet);
+        ll_getInternet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), GetInternetActivity.class);
+                startActivity(intent);
+            }
+        });
 
         this.CreateItem(R.id.dir_item_callphone, "Call Phone", "拨号");
         LinearLayout ll_callphone = (LinearLayout)findViewById(R.id.dir_item_callphone);

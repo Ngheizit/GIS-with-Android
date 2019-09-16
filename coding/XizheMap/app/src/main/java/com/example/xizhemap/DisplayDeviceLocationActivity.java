@@ -1,31 +1,50 @@
 package com.example.xizhemap;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.esri.arcgisruntime.geometry.PointCollection;
+import com.esri.arcgisruntime.geometry.Polyline;
+import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.Item;
+import com.esri.arcgisruntime.mapping.view.Graphic;
+import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.example.xizhemap.displaydevicelaocion.ItemData;
 import com.example.xizhemap.displaydevicelaocion.SpinnerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DisplayDeviceLocationActivity extends AppCompatActivity {
+
+    private TextView tv_distance;
 
     private MapView pMapView;
     private LocationDisplay pLocationDisplay;
     private Spinner pSpinner;
+
 
     private int requestCode = 2;
     String[] reqPermissions = new String[]{
@@ -33,10 +52,17 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
+
+    private LocationManager lm;
+    private List<PointClass> pointLists = new ArrayList<>();
+    private List<PointClass> pointLists2 = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displaydevicelocation);
+
+        tv_distance = findViewById(R.id.tv_distance);
 
         // Get the Spinner from layout
         pSpinner = (Spinner) findViewById(R.id.spinner);
@@ -46,7 +72,7 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
         ArcGISMap pMap = new ArcGISMap(Basemap.createImagery());
         pMapView.setMap(pMap);
 
-        // get the MapView's LocationDisplay
+        // get the MapView's LocationDisplay - 位置显示
         pLocationDisplay = pMapView.getLocationDisplay();
 
         // Listen to changes in the status of the location data source
@@ -139,6 +165,75 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
+
+        lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                try {
+
+                    double distance = 0.0;
+
+                    double lon = pLocationDisplay.getLocation().getPosition().getX();
+                    double lat = pLocationDisplay.getLocation().getPosition().getY();
+                    pointLists.add(new PointClass(lon, lat));
+                    PointCollection borderCAtoNV = new PointCollection(SpatialReferences.getWgs84());
+                    for(int i = 0; i < pointLists.size(); i++){
+                        borderCAtoNV.add(pointLists.get(i).Lon, pointLists.get(i).Lat);
+
+                    }
+                    Polyline polyline = new Polyline(borderCAtoNV);
+                    SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 3);
+                    GraphicsOverlay overlay = new GraphicsOverlay();
+                    pMapView.getGraphicsOverlays().add(overlay);
+                    overlay.getGraphics().add(new Graphic(polyline, lineSymbol));
+
+                    // ---------------------------------
+
+                    lon = location.getLongitude();
+                    lat = location.getLatitude();
+                    pointLists2.add(new PointClass(lon, lat));
+                    borderCAtoNV = new PointCollection(SpatialReferences.getWgs84());
+                    for(int i = 0; i < pointLists2.size(); i++){
+                        borderCAtoNV.add(pointLists2.get(i).Lon, pointLists2.get(i).Lat);
+                        if(i > 0){
+                            distance += PointClass.GetDistance(pointLists2.get(i - 1), pointLists2.get(i));
+                            Toast.makeText(getApplicationContext(), Double.toString(distance), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    tv_distance.setText(Double.toString(distance));
+                    polyline = new Polyline(borderCAtoNV);
+
+                    lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+                    overlay = new GraphicsOverlay();
+                    pMapView.getGraphicsOverlays().add(overlay);
+                    overlay.getGraphics().add(new Graphic(polyline, lineSymbol));
+
+                    // ------------------------------------
+
+
+                }catch(Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        });
+
     }
 
     @Override
@@ -177,5 +272,8 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
         super.onDestroy();
         pMapView.dispose();
     }
+
+    // ---------------------------------------------
+
 
 }

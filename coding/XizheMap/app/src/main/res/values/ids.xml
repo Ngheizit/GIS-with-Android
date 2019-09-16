@@ -4,4 +4,5 @@
     <item name="dir_items_DisplayDeviceLocation" type="id">dir_items_DisplayDeviceLocation</item>
     <item name="dir_items_ChangeSublayerVisibility" type="id">dir_items_ChangeSublayerVisibility</item>
     <item name="dir_items_Question" type="id">dir_items_Question</item>
+    <item name="dir_items_Location" type="id">dir_items_Location</item>
 </resources>
