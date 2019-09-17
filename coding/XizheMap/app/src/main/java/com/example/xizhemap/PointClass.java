@@ -21,7 +21,6 @@ public class PointClass {
         double b = rad(pt1.Lon) - rad(pt2.Lon);
         double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad(pt1.Lat)) * Math.cos(rad(pt2.Lat)) * Math.pow(Math.sin(b / 2), 2)));
         s = s * EARTH_RADIUS;
-        s = Math.round(s * 10000) / 10000;
         return s;
     }
 

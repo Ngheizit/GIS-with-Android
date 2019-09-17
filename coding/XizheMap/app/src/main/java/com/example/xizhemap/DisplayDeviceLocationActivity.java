@@ -202,6 +202,7 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), Double.toString(distance), Toast.LENGTH_SHORT).show();
                         }
                     }
+                    distance = Math.round(distance * 1000) / 1000;
                     tv_distance.setText(Double.toString(distance));
                     polyline = new Polyline(borderCAtoNV);
 
