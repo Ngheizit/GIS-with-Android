@@ -12,10 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -30,16 +27,24 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.example.xizhemap.displaydevicelaocion.ItemData;
 import com.example.xizhemap.displaydevicelaocion.SpinnerAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DisplayDeviceLocationActivity extends AppCompatActivity {
 
     private TextView tv_distance;
+    private TextView tv_time;
+    private TextView tv_time2;
+    private Button btn_Trajectory;
+    private boolean isTrajectory = false;
+    private long startTime, nowTime;
+    private Date date;
 
     private MapView pMapView;
     private LocationDisplay pLocationDisplay;
@@ -63,6 +68,8 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_displaydevicelocation);
 
         tv_distance = findViewById(R.id.tv_distance);
+        tv_time = findViewById(R.id.tv_time);
+        tv_time2 = findViewById(R.id.tv_time2);
 
         // Get the Spinner from layout
         pSpinner = (Spinner) findViewById(R.id.spinner);
@@ -119,6 +126,8 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
         list.add(new ItemData("Navigation", R.drawable.locationdisplaynavigation));
         list.add(new ItemData("Compass", R.drawable.locationdisplayheading));
 
+
+
         SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.sppinner_layout, R.id.txt, list);
         pSpinner.setAdapter(adapter);
         pSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -166,13 +175,35 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) { }
         });
 
-        lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
+        btn_Trajectory = findViewById(R.id.btn_trajectory);
+        btn_Trajectory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isTrajectory == false){
+                    btn_Trajectory.setText("END");
+                    isTrajectory = true;
+                    date = new Date();
+                    startTime = date.getTime();
+                    return;
+                }
+                if(isTrajectory == true){
+                    btn_Trajectory.setText("START");
+                    isTrajectory = false;
+                    return;
+                }
+            }
+        });
+
+
+        lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 try {
-
+                    if(isTrajectory == false){
+                        return;
+                    }
                     double distance = 0.0;
 
                     double lon = pLocationDisplay.getLocation().getPosition().getX();
@@ -199,19 +230,27 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
                         borderCAtoNV.add(pointLists2.get(i).Lon, pointLists2.get(i).Lat);
                         if(i > 0){
                             distance += PointClass.GetDistance(pointLists2.get(i - 1), pointLists2.get(i));
-                            Toast.makeText(getApplicationContext(), Double.toString(distance), Toast.LENGTH_SHORT).show();
                         }
                     }
-                    distance = Math.round(distance * 1000) / 1000;
-                    tv_distance.setText(Double.toString(distance));
+                    distance = Math.round(distance * 1000) / 1000.0;
+                    tv_distance.setText(distance + "km");
+                    date = new Date();
+                    nowTime = date.getTime();
+                    double second = Math.round(((nowTime - startTime) / 1000.0) * 10) / 10.0;
+                    double m = distance * 1000;
+                    double ms = Math.round((m/second) * 10) / 10.0;
+                    tv_time.setText(String.format("%s m/s", ms));
+                    tv_time2.setText((Math.round(ms * 3.6 * 10) / 10.0 + " km/h"));
+
                     polyline = new Polyline(borderCAtoNV);
 
-                    lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.YELLOW, 2);
+                    PictureMarkerSymbol lineSymbol2 = new PictureMarkerSymbol("http://sampleserver6.arcgisonline.com/arcgis/rest/services/Recreation/FeatureServer/0/images/e82f744ebb069bb35b234b3fea46deae");
+
                     overlay = new GraphicsOverlay();
                     pMapView.getGraphicsOverlays().add(overlay);
-                    overlay.getGraphics().add(new Graphic(polyline, lineSymbol));
+                    overlay.getGraphics().add(new Graphic(polyline, lineSymbol2));
 
-                    // ------------------------------------
+                    // -------------------------------------
 
 
                 }catch(Exception e) {
@@ -234,6 +273,7 @@ public class DisplayDeviceLocationActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 

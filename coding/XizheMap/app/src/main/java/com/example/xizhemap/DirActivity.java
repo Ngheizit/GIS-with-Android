@@ -5,7 +5,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -32,8 +31,8 @@ public class DirActivity extends AppCompatActivity implements View.OnClickListen
                 intent = new Intent(getApplicationContext(), QuestionActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.dir_items_Location:
-                intent = new Intent(getApplicationContext(), LocationActivity.class);
+            case R.id.dir_items_OAuth:
+                intent = new Intent(getApplicationContext(), OAuthActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -48,7 +47,7 @@ public class DirActivity extends AppCompatActivity implements View.OnClickListen
         CreateItem(R.id.dir_items_DisplayDeviceLocation, "Display Device Location", "Show Location from device");
         CreateItem(R.id.dir_items_ChangeSublayerVisibility, "Change Sublayer Visibility", "Toggle visibility of the map's sublayers");
         CreateItem(R.id.dir_items_Question, "课程知识点汇总", "Questions");
-        CreateItem(R.id.dir_items_Location, "Location Test", "动态获取GPS定位点");
+        CreateItem(R.id.dir_items_OAuth, "Authenticate with OAuth", "使用OAuth进行身份验证");
 
 
 

@@ -30,7 +30,7 @@
         <activity android:name=".DisplayDeviceLocationActivity" />
         <activity android:name=".ChangeSublayerVisibilityActivity" />
         <activity android:name=".QuestionActivity" />
-        <activity android:name=".LocationActivity" />
+        <activity android:name=".OAuthActivity" />
 
     </application>
 
