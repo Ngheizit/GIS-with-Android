@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".ChangeSublayerVisibilityActivity">
+
+    <group android:checkableBehavior="all">
+        <item android:id="@+id/Cities"
+              app:showAsAction="never"
+              android:title="Cities" />
+        <item android:id="@+id/Continents"
+              app:showAsAction="never"
+              android:title="Continents" />
+        <item android:id="@+id/World"
+              app:showAsAction="never"
+              android:title="World" />
+    </group>
+
+</menu>

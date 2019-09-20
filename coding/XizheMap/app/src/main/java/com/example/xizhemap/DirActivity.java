@@ -5,7 +5,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -24,6 +23,18 @@ public class DirActivity extends AppCompatActivity implements View.OnClickListen
                 intent = new Intent(getApplicationContext(), DisplayDeviceLocationActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.dir_items_ChangeSublayerVisibility:
+                intent = new Intent(getApplicationContext(), ChangeSublayerVisibilityActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.dir_items_Question:
+                intent = new Intent(getApplicationContext(), QuestionActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.dir_items_OAuth:
+                intent = new Intent(getApplicationContext(), OAuthActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -32,10 +43,11 @@ public class DirActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dir);
 
-        CreateItem(R.id.dir_items_AddFeatures, "Add features (Feature Service)", "Add new features to an online feature service");
+        CreateItem(R.id.dir_items_AddFeatures, "Add features", "Add new features to an online feature service");
         CreateItem(R.id.dir_items_DisplayDeviceLocation, "Display Device Location", "Show Location from device");
-
-
+        CreateItem(R.id.dir_items_ChangeSublayerVisibility, "Change Sublayer Visibility", "Toggle visibility of the map's sublayers");
+        CreateItem(R.id.dir_items_Question, "课程知识点汇总", "Questions");
+        CreateItem(R.id.dir_items_OAuth, "Authenticate with OAuth", "使用OAuth进行身份验证");
 
 
 

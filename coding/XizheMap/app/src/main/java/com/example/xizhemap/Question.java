@@ -1,8 +1,4 @@
-package com.example.pc_08.myapplication;
-
-/**
- * Created by PC-00 on 2019/9/8.
- */
+package com.example.xizhemap;
 
 public class Question {
     public String content;
