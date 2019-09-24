@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="links_tian_di_tu" type="id" />
+    <item name="links_question" type="id" />
+    <item name="links_device_gps" type="id" />
+
+</resources>

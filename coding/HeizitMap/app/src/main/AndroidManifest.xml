@@ -38,6 +38,9 @@
 
         <!-- 拓展窗体 -->
         <activity android:name=".activity.TianDiTuActivity" />
+        <activity android:name=".activity.LinksActivity" />
+        <activity android:name=".activity.QuestionActivity" />
+        <activity android:name=".activity.DeviceGpsActivity" />
 
     </application>
 

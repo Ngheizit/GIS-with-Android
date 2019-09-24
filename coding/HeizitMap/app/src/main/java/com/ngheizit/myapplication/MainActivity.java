@@ -13,6 +13,7 @@ import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Camera;
 import com.esri.arcgisruntime.mapping.view.SceneView;
+import com.ngheizit.myapplication.activity.LinksActivity;
 import com.ngheizit.myapplication.activity.TianDiTuActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 String word = et_password.getText().toString();
                 if(word.equals("爱你一万年")){
                     ToastUtil.showToast("Li Yifu");
-                    Intent intent = new Intent(getApplicationContext(), TianDiTuActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LinksActivity.class);
                     startActivity(intent);
                     ToastUtil.showToast(" ヾ(≧▽≦*)o ");
                 }
@@ -56,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupMap(){
         if(pSceneView != null){
-            double latitude = 0;    // 纬度
-            double lougitude = 0;  // 经度
-            double altitude = 3000000;
-            double heading = 90;
-            double pitch = 90.0;
+            double latitude = 23;    // 纬度
+            double lougitude = 114;  // 经度
+            double altitude = 25000000.0;
+            double heading = 0.1;
+            double pitch = 3.0;
             double roll = 0.0;
 
             ArcGISScene scene = new ArcGISScene();
