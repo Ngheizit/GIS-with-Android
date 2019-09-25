@@ -61,7 +61,6 @@ public class DeviceGpsActivity extends AppCompatActivity {
     private Date date;
     private LocationManager locationManager; // 位置管理器
     private List<PointClass> pointList = new ArrayList<>(); // 轨迹记录点
-    int index = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -184,8 +183,8 @@ public class DeviceGpsActivity extends AppCompatActivity {
                     pointList.add(new PointClass(lon, lat));
                     PointCollection borderCAtoNV = new PointCollection(SpatialReferences.getWgs84());
                     for(int i = 0; i < pointList.size(); i++){
-                        borderCAtoNV.add(pointList.get(i).Lon, pointList.get(i).Lat);
                         if(i > 0){
+                            borderCAtoNV.add(pointList.get(i).Lon, pointList.get(i).Lat);
                             distance += PointClass.GetDistance(pointList.get(i - 1), pointList.get(i));
                         }
                     }
@@ -202,25 +201,14 @@ public class DeviceGpsActivity extends AppCompatActivity {
                     Polyline polyline = new Polyline(borderCAtoNV);
 
                     String url_mario = "http://ngheizit.fun/img/mario2.png";
-                    PictureMarkerSymbol lineSymbol;
-                    lineSymbol = new PictureMarkerSymbol(url_mario);
-                    if(index == 5){
-                        lineSymbol.setHeight(28);
-                        lineSymbol.setWidth(20);
-                        index = 0;
-                    }else {
-                        lineSymbol.setHeight(1);
-                        lineSymbol.setWidth(1);
-                    }
-                    index += 1;
+                    PictureMarkerSymbol lineSymbol = new PictureMarkerSymbol(url_mario);
+                    lineSymbol.setHeight(28);
+                    lineSymbol.setWidth(20);
+
 
                     GraphicsOverlay overlay = new GraphicsOverlay();
-                    try {
-                        pMapView.getGraphicsOverlays().remove(1);
-                    }catch(Exception e) { }
                     pMapView.getGraphicsOverlays().add(overlay);
                     overlay.getGraphics().add(new Graphic(polyline, lineSymbol));
-                    lineSymbol.loadAsync();
 
                 }catch (Exception e){ }
             }
