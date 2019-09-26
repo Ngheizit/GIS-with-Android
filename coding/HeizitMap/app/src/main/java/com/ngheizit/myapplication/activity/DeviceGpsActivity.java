@@ -171,6 +171,11 @@ public class DeviceGpsActivity extends AppCompatActivity {
         });
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        String url_mario = "https://ngheizit.fun/Older/img/mario4.png";
+        PictureMarkerSymbol lineSymbol = new PictureMarkerSymbol(url_mario);
+        lineSymbol.loadAsync();
+        lineSymbol.setHeight(21);
+        lineSymbol.setWidth(20);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -183,8 +188,8 @@ public class DeviceGpsActivity extends AppCompatActivity {
                     pointList.add(new PointClass(lon, lat));
                     PointCollection borderCAtoNV = new PointCollection(SpatialReferences.getWgs84());
                     for(int i = 0; i < pointList.size(); i++){
+                        borderCAtoNV.add(pointList.get(i).Lon, pointList.get(i).Lat);
                         if(i > 0){
-                            borderCAtoNV.add(pointList.get(i).Lon, pointList.get(i).Lat);
                             distance += PointClass.GetDistance(pointList.get(i - 1), pointList.get(i));
                         }
                     }
@@ -200,10 +205,7 @@ public class DeviceGpsActivity extends AppCompatActivity {
 
                     Polyline polyline = new Polyline(borderCAtoNV);
 
-                    String url_mario = "http://ngheizit.fun/img/mario2.png";
-                    PictureMarkerSymbol lineSymbol = new PictureMarkerSymbol(url_mario);
-                    lineSymbol.setHeight(28);
-                    lineSymbol.setWidth(20);
+
 
 
                     GraphicsOverlay overlay = new GraphicsOverlay();
