@@ -87,6 +87,11 @@ public class QuestionActivity extends AppCompatActivity {
                 new Question("中心位置的测度包括___，___和___","中项中心，平均中心，区域重心"),
                 new Question("离散程度的测度包括对___、___的离散程度，对___的离散程度和___的离散程度", "平均中心，中项中心，任意指定中心，各点之间")
 
+
+                // 数据库
+                // ---- 第四周
+
+
         };
     }
 

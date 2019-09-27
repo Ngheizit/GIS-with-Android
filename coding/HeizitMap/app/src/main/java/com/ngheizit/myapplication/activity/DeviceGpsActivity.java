@@ -3,6 +3,7 @@ package com.ngheizit.myapplication.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,6 +31,8 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
 import com.ngheizit.myapplication.R;
 import com.ngheizit.myapplication.ToastUtil;
 import com.ngheizit.myapplication.arcgisruntime.ItemData;
@@ -172,10 +175,17 @@ public class DeviceGpsActivity extends AppCompatActivity {
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         String url_mario = "https://ngheizit.fun/Older/img/mario4.png";
-        PictureMarkerSymbol lineSymbol = new PictureMarkerSymbol(url_mario);
-        lineSymbol.loadAsync();
-        lineSymbol.setHeight(21);
-        lineSymbol.setWidth(20);
+//        PictureMarkerSymbol lineSymbol = new PictureMarkerSymbol(url_mario);
+//        lineSymbol.loadAsync();
+//        lineSymbol.setHeight(21);
+//        lineSymbol.setWidth(20);
+        SimpleLineSymbol pLineSymbol_red = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
+        SimpleLineSymbol pLineSymbol_orange = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xDDFF7F00, 4);
+        SimpleLineSymbol pLineSymbol_yellow = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xBBFFFF00, 6);
+        SimpleLineSymbol pLineSymbol_green = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x9900FF00, 8);
+        SimpleLineSymbol pLineSymbol_cyan_blue = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x7700FFFF, 10);
+        SimpleLineSymbol pLineSymbol_blue = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x550000FF, 12);
+        SimpleLineSymbol pLineSymbol_purple = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x33FF00FF, 14);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -209,8 +219,15 @@ public class DeviceGpsActivity extends AppCompatActivity {
 
 
                     GraphicsOverlay overlay = new GraphicsOverlay();
+                    pMapView.getGraphicsOverlays().clear();
                     pMapView.getGraphicsOverlays().add(overlay);
-                    overlay.getGraphics().add(new Graphic(polyline, lineSymbol));
+                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_purple));
+                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_blue));
+                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_cyan_blue));
+                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_green));
+                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_yellow));
+                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_orange));
+                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_red));
 
                 }catch (Exception e){ }
             }
