@@ -230,7 +230,7 @@ public class DeviceGpsActivity extends AppCompatActivity {
                     tv_time_kmh.setText((Math.round(ms * 3.6 * 10) / 10.0 + " km/h"));
 
 //                    Polyline polyline = new Polyline(borderCAtoNV);
-                    Point point = new Point(lon, lat);
+                    Point point = new Point(lon, lat, SpatialReferences.getWgs84());
 
                     int index = new Random().nextInt(4);
                     int height;

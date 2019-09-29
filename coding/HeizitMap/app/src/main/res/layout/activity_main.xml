@@ -18,7 +18,7 @@
         android:singleLine="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_margin="100dp"
+        android:layout_margin="20dp"
         android:textSize="32sp"
         android:textColor="#fff"
         android:layout_width="match_parent"
