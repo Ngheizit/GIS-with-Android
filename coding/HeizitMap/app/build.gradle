@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 29
@@ -36,4 +37,13 @@ dependencies {
 
     // 更新应用程序模块Gradle依赖项，以包括适用于Android的ArcGIS Runtime SDK依赖项
     implementation 'com.esri.arcgisruntime:arcgis-android:100.6.0'
+
+    // butterknife 框架
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+
+    // 网络框架
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation("com.squareup.okhttp3:okhttp:4.2.0")
+
 }

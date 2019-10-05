@@ -6,6 +6,9 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
+
+        // butterknife 框架
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
     }
 }
 
