@@ -40,5 +40,10 @@
             android:background="@drawable/sub" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_API"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="#75ffffff"/>
 
 </RelativeLayout>

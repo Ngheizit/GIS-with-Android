@@ -4,6 +4,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.esri.arcgisruntime.mapping.view.MapView;
 import com.ngheizit.myapplication.R;
 import com.ngheizit.myapplication.TianDiTuMethodsClass;
 import com.ngheizit.myapplication.ToastUtil;
+import com.ngheizit.myapplication.api.GaodeAPI;
 import com.ngheizit.myapplication.gps.GPSLocationListener;
 import com.ngheizit.myapplication.gps.GPSLocationManager;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -44,6 +46,7 @@ public class TianDiTuActivity extends AppCompatActivity {
 
     // 全局属性
     private MapView pMapView;
+    private TextView tv_API;
     private GPSLocationManager gpsLocationManager;
     GraphicsOverlay mGraphicsOverlay;
     // private SketchGraphicsOverlay mSketchGraphicsOverlay;
@@ -74,7 +77,28 @@ public class TianDiTuActivity extends AppCompatActivity {
                 break;
             case R.id.btn_locate:
                 Point point =new Point( lon,lat) ;
-                search_poi("博物馆");
+//                search_poi("博物馆");
+//                GaodeAPI.Search_POI_Around(lon, lat, 3000, "学校", 1, new StringCallback() {
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//                        e.printStackTrace();
+//                    }
+//                    @Override
+//                    public void onResponse(String response, int id) {
+//                        System.out.println(response);
+//                        tv_API.setText(response);
+//                    }
+//                });
+                GaodeAPI.ReGeocoding(lon, lat, new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        e.printStackTrace();
+                    }
+                    @Override
+                    public void onResponse(String response, int id) {
+                        tv_API.setText(response);
+                    }
+                });
                 pMapView.setViewpointCenterAsync( point,20329.6);
                 break;
         }
@@ -93,6 +117,15 @@ public class TianDiTuActivity extends AppCompatActivity {
         gpsLocationManager.start(new MyListener());
 
         initmap();
+
+        tv_API = findViewById(R.id.tv_API);
+
+
+
+
+
+
+
     }
 
     private void initmap() {
