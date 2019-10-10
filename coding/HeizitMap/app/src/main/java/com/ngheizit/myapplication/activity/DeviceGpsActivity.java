@@ -26,11 +26,13 @@ import com.esri.arcgisruntime.geometry.PointCollection;
 import com.esri.arcgisruntime.geometry.Polyline;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.mapping.ArcGISMap;
+import com.esri.arcgisruntime.mapping.ArcGISScene;
 import com.esri.arcgisruntime.mapping.Basemap;
 import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.LocationDisplay;
 import com.esri.arcgisruntime.mapping.view.MapView;
+import com.esri.arcgisruntime.mapping.view.SceneView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.SimpleMarkerSymbol;
@@ -80,12 +82,13 @@ public class DeviceGpsActivity extends AppCompatActivity {
         this.btn_Trajectory = findViewById(R.id.btn_trajectory);
 
         // 生成底图
-        ArcGISMap pMap = new ArcGISMap(Basemap.createImagery());
+        ArcGISMap pMap = new ArcGISMap(Basemap.createOpenStreetMap());
         pMap.loadAsync();
         this.pMapView.setMap(pMap);
 
         // 获得MapView的LocationDisplay，并设置位置数据源状态监听事件
         this.pLocationDisplay = this.pMapView.getLocationDisplay();
+
         this.pLocationDisplay.addDataSourceStatusChangedListener(new LocationDisplay.DataSourceStatusChangedListener() {
             @Override
             public void onStatusChanged(LocationDisplay.DataSourceStatusChangedEvent dataSourceStatusChangedEvent) {
@@ -176,39 +179,12 @@ public class DeviceGpsActivity extends AppCompatActivity {
         });
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        String url_china = "https://ngheizit.fun/default-img/china.jpg";
+        String url_china = "https://ngheizit.fun/Older/img/Woodstock.png";
         PictureMarkerSymbol symbol = new PictureMarkerSymbol(url_china);
         symbol.loadAsync();
-        symbol.setHeight(14);
+        symbol.setHeight(20);
         symbol.setWidth(20);
-//        String url_firefly = "https://ngheizit.fun/default-img/firefly.png";
-//        String url_firefly2 = "https://ngheizit.fun/default-img/firefly2.png";
-//        String url_firefly3 = "https://ngheizit.fun/default-img/firefly3.png";
-//        String url_firefly4 = "https://ngheizit.fun/default-img/firefly4.png";
-//        PictureMarkerSymbol lineSymbol = new PictureMarkerSymbol(url_firefly);
-//        PictureMarkerSymbol lineSymbol2 = new PictureMarkerSymbol(url_firefly2);
-//        PictureMarkerSymbol lineSymbol3 = new PictureMarkerSymbol(url_firefly3);
-//        PictureMarkerSymbol lineSymbol4 = new PictureMarkerSymbol(url_firefly4);
-//        lineSymbol.loadAsync();
-//        lineSymbol2.loadAsync();
-//        lineSymbol3.loadAsync();
-//        lineSymbol4.loadAsync();
-//        PictureMarkerSymbol[] lineSymbols = new PictureMarkerSymbol[]{
-//                lineSymbol, lineSymbol2, lineSymbol3, lineSymbol4
-//        };
-//        String url_mario = "https://ngheizit.fun/Older/img/mario4.png";
-//        PictureMarkerSymbol lineSymbol = new PictureMarkerSymbol(url_mario);
-//        lineSymbol.loadAsync();
-//        lineSymbol.setHeight(21);
-//        lineSymbol.setWidth(20);
-//        SimpleLineSymbol pLineSymbol_red = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xFFFF0000, 2);
-//        SimpleLineSymbol pLineSymbol_orange = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xDDFF7F00, 4);
-//        SimpleLineSymbol pLineSymbol_yellow = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0xBBFFFF00, 6);
-//        SimpleLineSymbol pLineSymbol_green = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x9900FF00, 8);
-//        SimpleLineSymbol pLineSymbol_cyan_blue = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x7700FFFF, 10);
-//        SimpleLineSymbol pLineSymbol_blue = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x550000FF, 12);
-//        SimpleLineSymbol pLineSymbol_purple = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, 0x33FF00FF, 14);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 1, new LocationListener() {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 5, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 try {
@@ -237,30 +213,9 @@ public class DeviceGpsActivity extends AppCompatActivity {
 
 //                    Polyline polyline = new Polyline(borderCAtoNV);
                     Point point = new Point(lon, lat, SpatialReferences.getWgs84());
-
-//                    int index = new Random().nextInt(4);
-//                    int height;
-//                    while (true){
-//                        height = new Random().nextInt(20);
-//                        if(height> 5){
-//                            break;
-//                        }
-//                    }
-//                    lineSymbols[index].setWidth(height);
-//                    lineSymbols[index].setHeight(height);
-
                     GraphicsOverlay overlay = new GraphicsOverlay();
-//                    pMapView.getGraphicsOverlays().clear();
                     pMapView.getGraphicsOverlays().add(overlay);
                     overlay.getGraphics().add(new Graphic(point, symbol));
-//                    overlay.getGraphics().add(new Graphic(point, lineSymbols[index]));
-//                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_purple));
-//                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_blue));
-//                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_cyan_blue));
-//                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_green));
-//                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_yellow));
-//                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_orange));
-//                    overlay.getGraphics().add(new Graphic(polyline, pLineSymbol_red));
 
                 }catch (Exception e){ }
             }
