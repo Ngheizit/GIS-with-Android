@@ -4,5 +4,6 @@
     <item name="links_tian_di_tu" type="id" />
     <item name="links_question" type="id" />
     <item name="links_device_gps" type="id" />
+    <item name="links_device_gps_3d" type="id" />
 
 </resources>

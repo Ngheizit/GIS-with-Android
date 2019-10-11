@@ -41,6 +41,7 @@
         <activity android:name=".activity.LinksActivity" />
         <activity android:name=".activity.QuestionActivity" />
         <activity android:name=".activity.DeviceGpsActivity" />
+        <activity android:name=".activity.DeviceGpsActivity3D" />
 
     </application>
 

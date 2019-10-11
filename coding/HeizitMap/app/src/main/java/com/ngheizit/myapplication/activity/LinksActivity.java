@@ -31,6 +31,10 @@ public class LinksActivity extends AppCompatActivity implements View.OnClickList
                 intent = new Intent(getApplicationContext(), DeviceGpsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.links_device_gps_3d:
+                intent = new Intent(getApplicationContext(), DeviceGpsActivity3D.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -42,6 +46,7 @@ public class LinksActivity extends AppCompatActivity implements View.OnClickList
         CreateItem(R.id.links_question, "解题达人", "迎接审判吧！");
         CreateItem(R.id.links_tian_di_tu, "天地图", "调用天地图API");
         CreateItem(R.id.links_device_gps, "GPS轨迹", "设备位置测试");
+        CreateItem(R.id.links_device_gps_3d, "GPS轨迹2", "设备位置测试3D");
 
     }
 
