@@ -1,0 +1,33 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+
+        // Butter Knife
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+        // 更新为Esri的Bintray Mavrn存储库URL
+        maven {
+            url 'https://esri.bintray.com/arcgis'
+        }
+
+        // AndroidSweetSheet
+        maven {
+            url "https://jitpack.io"
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

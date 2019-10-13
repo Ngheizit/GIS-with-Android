@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/axRelativeLayout_Main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.esri.arcgisruntime.mapping.view.MapView
+            android:id="@+id/axMapView_Main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </com.esri.arcgisruntime.mapping.view.MapView>
+
+        <LinearLayout
+            android:id="@+id/axLLayout"
+            android:layout_below="@id/axLLayout2"
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#D3D3D3">
+            <Button
+                android:id="@+id/axBtn_ZoomIn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/zoomin"/>
+            <Button
+                android:id="@+id/axBtn_ZoomOut"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/zoomout"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/axBtn_Locate"
+            android:layout_marginLeft="20dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/axLLayout"
+            android:background="@drawable/locate"/>
+
+        <LinearLayout
+            android:id="@+id/axLLayout2"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:padding="15dp"
+            android:background="#FFFFFF">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="22dp"
+                    android:gravity="center"
+                    android:text="FROM: "
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"/>
+                <EditText
+                    android:id="@+id/axEt_From"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="22dp"
+                    android:gravity="center"
+                    android:text="TO: "
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"/>
+                <EditText
+                    android:id="@+id/axEt_To"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

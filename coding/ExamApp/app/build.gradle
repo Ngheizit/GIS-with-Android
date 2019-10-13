@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+// Butter Knife
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.ngheizit.examapp"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // Java 8编译项
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    // ArcGIS Runtime SDK依赖项
+    implementation 'com.esri.arcgisruntime:arcgis-android:100.6.0'
+
+    // Butter Knife
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+
+    // OkHTTP
+    implementation 'com.zhy:okhttputils:2.6.2'
+    implementation("com.squareup.okhttp3:okhttp:4.2.0")
+
+    // AndroidSweetSheet
+    implementation 'com.github.zzz40500:AndroidSweetSheet:1.1.0'
+}

@@ -179,7 +179,7 @@ public class DeviceGpsActivity extends AppCompatActivity {
         });
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        String url_china = "https://ngheizit.fun/Older/img/Woodstock.png";
+        String url_china = "https://ngheizit.fun/default-img/joker.png";
         PictureMarkerSymbol symbol = new PictureMarkerSymbol(url_china);
         symbol.loadAsync();
         symbol.setHeight(20);

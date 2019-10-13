@@ -47,7 +47,7 @@ public class DeviceGpsActivity3D extends AppCompatActivity {
         gpsLocationManager.start(new MyListener());
 
 
-        symbol = new PictureMarkerSymbol("https://ngheizit.fun/Older/img/Woodstock.png");
+        symbol = new PictureMarkerSymbol("https://ngheizit.fun/Older/img/joker.png");
         symbol.loadAsync();
         symbol.setHeight(20);
         symbol.setWidth(20);
