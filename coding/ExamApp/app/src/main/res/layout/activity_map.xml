@@ -5,53 +5,69 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <!-- 地图控件 -->
         <com.esri.arcgisruntime.mapping.view.MapView
             android:id="@+id/axMapView_Main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </com.esri.arcgisruntime.mapping.view.MapView>
 
+        <!-- 缩放控件集 -->
         <LinearLayout
             android:id="@+id/axLLayout"
-            android:layout_below="@id/axLLayout2"
+            android:layout_below="@id/axLLayout_Navigate"
             android:orientation="vertical"
             android:layout_margin="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#D3D3D3">
+            <!-- 比例放大按钮 -->
             <Button
                 android:id="@+id/axBtn_ZoomIn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="3dp"
                 android:background="@drawable/zoomin"/>
+            <!-- 比例缩小按钮 -->
             <Button
                 android:id="@+id/axBtn_ZoomOut"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@drawable/zoomout"/>
         </LinearLayout>
 
+        <!-- 定位按钮 -->
         <Button
             android:id="@+id/axBtn_Locate"
             android:layout_marginLeft="20dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_below="@id/axLLayout"
             android:background="@drawable/locate"/>
 
+        <!-- 轨迹记录按钮 -->
+        <Button
+            android:id="@+id/axBtn_Trajectory"
+            android:layout_marginLeft="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/axBtn_Locate"
+            android:background="@drawable/trajectory"/>
+
+        <!-- 导航起终点设置控件集 -->
         <LinearLayout
-            android:id="@+id/axLLayout2"
+            android:id="@+id/axLLayout_Navigate"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:padding="15dp"
-            android:background="#FFFFFF">
+            android:padding="10dp"
+            android:background="@drawable/border">
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -60,6 +76,7 @@
                     android:textSize="22dp"
                     android:gravity="center"
                     android:text="FROM: "
+                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"/>
@@ -77,6 +94,7 @@
                     android:textSize="22dp"
                     android:gravity="center"
                     android:text="TO: "
+                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"/>
@@ -87,8 +105,47 @@
                     android:layout_weight="0.7"/>
             </LinearLayout>
         </LinearLayout>
+
+        <!-- 获取导航按钮 -->
+        <Button
+            android:id="@+id/axBtn_Navigate"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/axLLayout_Navigate"
+            android:background="@drawable/navigate"/>
+
+        <!-- 清除导航线路按钮 -->
+        <Button
+            android:id="@+id/axBtn_Clear"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/axBtn_Navigate"
+            android:background="@drawable/clear"/>
+
+        <!-- 轨迹信息显示控件集 -->
+        <LinearLayout
+            android:id="@+id/axLLayout_Trajectory"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            android:background="@drawable/border2">
+            <TextView
+                android:textSize="18dp"
+                android:gravity="center"
+                android:textColor="#222"
+                android:textStyle="bold"
+                android:text="..."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
     </RelativeLayout>
-
-
-
 </RelativeLayout>
