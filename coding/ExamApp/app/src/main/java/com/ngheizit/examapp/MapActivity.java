@@ -1,5 +1,7 @@
 package com.ngheizit.examapp;
 
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,9 +11,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import com.esri.arcgisruntime.geometry.Point;
+import com.esri.arcgisruntime.geometry.PolylineBuilder;
 import com.esri.arcgisruntime.geometry.SpatialReferences;
 import com.esri.arcgisruntime.io.RequestConfiguration;
 import com.esri.arcgisruntime.layers.WebTiledLayer;
@@ -21,6 +27,8 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.PictureMarkerSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
+import com.esri.arcgisruntime.symbology.SimpleRenderer;
 import com.mingle.entity.MenuEntity;
 import com.mingle.sweetpick.DimEffect;
 import com.mingle.sweetpick.RecyclerViewDelegate;
@@ -33,6 +41,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,18 +52,17 @@ import okhttp3.Call;
 
 public class MapActivity extends AppCompatActivity {
 
-    private static final String KEY  = "92d4f72edb2b6dcef6e8a6a60cf88d4f";
+    private static final String KEY  = "92d4f72edb2b6dcef6e8a6a60cf88d4f"; // 天地图密钥
     private double lon, lat,bearing; // 经度 纬度 方位角
     private SweetSheet axSweetSheet; // 控件：拖拽菜单
     private GPSLocationManager gpsLocationListener; // GPS位置管理对象
+    private String pointStart, pointEnd; // 导航起点和终点
     private boolean isTrajectory = false; // 轨迹记录开启关闭控制事件
-    private String imageUrl = "https://ngheizit.fun/default-img/joker.png";
-    private PictureMarkerSymbol pictureMarkerSymbol;
+    private String imageUrl = "https://ngheizit.fun/default-img/joker.png"; // 轨迹样式图片
+    private PictureMarkerSymbol pictureMarkerSymbol; // 轨迹样式
+    private long startTime, nowTime; // 轨迹记录开始时间和实时时间
+    private List<Point> pointList = new ArrayList<>(); // 轨迹记录点
 
-
-    private ArrayList<String> pointlist; //搜索到的点集合
-    private ArrayList<String> pointlistuse;//有用的点集合
-    private ArrayList<MenuEntity> list;//搜索到的名称集合
 
     @BindView(R.id.axRelativeLayout_Main) RelativeLayout axRLayout;
     @BindView(R.id.axMapView_Main) MapView axMapView;
@@ -79,15 +90,26 @@ public class MapActivity extends AppCompatActivity {
                 break;
             case R.id.axBtn_Trajectory: // 记录轨迹
                 isTrajectory = !isTrajectory;
+                BitmapDrawable closeBitmap = (BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.close);
+                BitmapDrawable traBitmap = (BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.trajectory);
+                if(isTrajectory) {
+                    axBtn_Trajectory.setBackground(closeBitmap);
+                    startTime = new Date().getTime();
+                }
+                else { axBtn_Trajectory.setBackground(traBitmap); }
                 break;
             case R.id.axBtn_Navigate: // 获取导航路径
+                try {  navigate(); }
+                catch (Exception e){ ToastUtil.showToast("还未设置起终点"); }
                 break;
             case R.id.axBtn_Clear: // 清理导航路径
+                axMapView.getGraphicsOverlays().clear();
                 break;
         }
     }
     @BindView(R.id.axEt_From) EditText axEt_From;
     @BindView(R.id.axEt_To) EditText axEt_To;
+    @BindView(R.id.axTv_info) TextView axTv_info;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +123,6 @@ public class MapActivity extends AppCompatActivity {
 
         // 初始化菜单（菜单绑定）
         axSweetSheet = new SweetSheet(axRLayout);
-        pointlistuse = new ArrayList<>();
 
         // 设置地图（天地图）
         setMap();
@@ -159,8 +180,9 @@ public class MapActivity extends AppCompatActivity {
         });
     }
 
-
+    // 抓取POI
     private void searchPOI(EditText et){
+
         String keyword = et.getText().toString();
         JSONObject jsonObject = new JSONObject();
         double lon_viewCenter = axMapView.getVisibleArea().getExtent().getCenter().getX(), // MapView当前视野范围中心点坐标
@@ -187,14 +209,14 @@ public class MapActivity extends AppCompatActivity {
                     public void onError(Call call, Exception e, int id) { e.printStackTrace(); }
                     @Override
                     public void onResponse(String response, int id) {
-                        list = new ArrayList<>();
-                        pointlist = new ArrayList<>();
+                        ArrayList<String> pointList = new ArrayList<>(); //搜索到的POI点集合
+                        ArrayList<MenuEntity> list = new ArrayList<>();//搜索到的POI名称集合
                         try {
                             JSONObject jo = new JSONObject(response);
                             JSONArray pois = jo.getJSONArray("pois");
                             for(int i = 0; i < pois.length(); i++){
                                 String lonlat = pois.getJSONObject(i).getString("lonlat");
-                                pointlist.add(lonlat);
+                                pointList.add(lonlat);
                                 String name = pois.getJSONObject(i).getString("name");
                                 MenuEntity menuEntity = new MenuEntity();
                                 menuEntity.title = name;
@@ -209,7 +231,8 @@ public class MapActivity extends AppCompatActivity {
                                 @Override
                                 public boolean onItemClick(int position, MenuEntity menuEntity) {
                                     et.setText(menuEntity.title);
-                                    pointlistuse.add(pointlist.get(position));
+                                    if(et == axEt_From) pointStart = pointList.get(position);
+                                    if(et == axEt_To) pointEnd = pointList.get(position);
                                     return true;
                                 }
                             });
@@ -223,6 +246,65 @@ public class MapActivity extends AppCompatActivity {
                 });
     }
 
+    // 获取导航线路
+    private void navigate(){
+        // 导航起点
+        String s_lon = pointStart.split(" ")[0];
+        String s_lat = pointStart.split(" ")[1];
+        // 导航终点
+        String e_lon = pointEnd.split(" ")[0];
+        String e_lat = pointEnd.split(" ")[1];
+        // 导航接口
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("orig", s_lon + "," + s_lat);
+            jsonObject.put("dest", e_lon + "," + e_lat);
+        }catch (JSONException e){ e.printStackTrace(); }
+        OkHttpUtils.get()
+                .url("http://api.tianditu.gov.cn/drive")
+                .addParams("postStr", jsonObject.toString())
+                .addParams("type", "search")
+                .addParams("tk", KEY)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) { e.printStackTrace(); }
+                    @Override
+                    public void onResponse(String response, int id) {
+                        HashMap<?, ?> m = XmlUtil.UnPackageXml(response);
+                        String routelatlon = m.get("routelatlon").toString();
+                        String[] points = routelatlon.split(";");
+                        drawLine(points);
+                    }
+                });
+    }
+
+    // 绘制导航路径 包含起终点符号样式
+    private void drawLine(String[] points){
+        // 点击绘线
+        PolylineBuilder lineBuilder = new PolylineBuilder(SpatialReferences.getWgs84());
+        for (int i = 0; i < points.length; i ++){
+            String[] lonlat = points[i].split(",");
+            lineBuilder.addPoint(Double.valueOf(lonlat[0]), Double.valueOf(lonlat[1]));
+        }
+        Graphic lineGraphic = new Graphic(lineBuilder.toGeometry());
+        GraphicsOverlay overlay = new GraphicsOverlay();
+        overlay.getGraphics().add(lineGraphic);
+        // 设置线样式
+        SimpleLineSymbol lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 5);
+        SimpleRenderer lineRenderer = new SimpleRenderer(lineSymbol);
+        overlay.setRenderer(lineRenderer);
+        // 添加到地图
+        axMapView.getGraphicsOverlays().clear();
+        axMapView.getGraphicsOverlays().add(overlay);
+
+        // 设置起终点样式
+        BitmapDrawable sPointBitmap = (BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.startpoint);
+        BitmapDrawable ePointBitmap = (BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.endpoint);
+        drawTrajectory(Double.valueOf(points[0].split(",")[0]), Double.valueOf(points[0].split(",")[1]), sPointBitmap);
+        drawTrajectory(Double.valueOf(points[points.length - 1].split(",")[0]), Double.valueOf(points[points.length - 1].split(",")[1]), ePointBitmap);
+    }
+
     // GPS位置监听对象
     class Listener implements GPSLocationListener{
         @Override
@@ -231,8 +313,10 @@ public class MapActivity extends AppCompatActivity {
             lon = location.getLongitude();
             lat = location.getLatitude();
             bearing = location.getBearing();
-            if(isTrajectory) drawTrajectory(lon, lat);
-            else axMapView.getGraphicsOverlays().clear();
+            if(isTrajectory) {
+                drawTrajectory(lon, lat);
+                showInfo();
+            }
         }
         @Override
         public void UpdateStatus(String provider, int status, Bundle extras) { }
@@ -240,11 +324,52 @@ public class MapActivity extends AppCompatActivity {
         public void UpdateGPSProviderStatus(int gpsStatus) { }
     }
 
-    // 轨迹（点）绘制
+    // 显示轨迹信息（路程，速度，配速）
+    private void showInfo(){
+        pointList.add(new Point(lon, lat, SpatialReferences.getWgs84()));
+        double distance = 0.0;
+        for(int i = 0; i < pointList.size(); i++)
+            if(i > 0)
+                distance += getDistance(pointList.get(i - 1).getX(), pointList.get(i - 1).getY(), pointList.get(i).getX(), pointList.get(i).getY());
+         nowTime = new Date().getTime();
+        double second = (nowTime - startTime) / 1000.0;
+        double m = distance * 1000;
+        double ms = Math.round((m/second) * 10) / 10.0;
+        distance = Math.round(distance * 1000) / 1000.0;
+
+    }
+
+    // 根据经纬度计算距离
+    private double rad(double d){ return d * Math.PI / 180.0; }
+    private double getDistance(double lon1, double lat1, double lon2, double lat2){
+        double EARTH_RADIUS  = 6378.137;
+        double a = rad(lat1) - rad(lat2);
+        double b = rad(lon1) - rad(lon2);
+        double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.pow(Math.sin(b / 2), 2)));
+        return s;
+    }
+
+    // 绘制点
     private void drawTrajectory(double lon, double lat){
         Point point = new Point(lon, lat, SpatialReferences.getWgs84());
         GraphicsOverlay overlay = new GraphicsOverlay();
         axMapView.getGraphicsOverlays().add(overlay);
         overlay.getGraphics().add(new Graphic(point, pictureMarkerSymbol));
+    }
+    private void drawTrajectory(double lon, double lat, BitmapDrawable bitmapDrawable){
+        final PictureMarkerSymbol symbol = new PictureMarkerSymbol(bitmapDrawable);
+        symbol.setWidth(40);
+        symbol.setHeight(40);
+        symbol.setOffsetY(10);
+        symbol.loadAsync();
+        Point point = new Point(lon, lat, SpatialReferences.getWgs84());
+        symbol.addDoneLoadingListener(new Runnable() {
+            @Override
+            public void run() {
+                GraphicsOverlay overlay = new GraphicsOverlay();
+                overlay.getGraphics().add(new Graphic(point, symbol));
+                axMapView.getGraphicsOverlays().add(overlay);
+            }
+        });
     }
 }

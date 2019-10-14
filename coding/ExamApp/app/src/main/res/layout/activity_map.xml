@@ -138,6 +138,7 @@
             android:padding="10dp"
             android:background="@drawable/border2">
             <TextView
+                android:id="@+id/axTv_info"
                 android:textSize="18dp"
                 android:gravity="center"
                 android:textColor="#222"
