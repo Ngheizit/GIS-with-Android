@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +53,7 @@ import okhttp3.Call;
 
 public class MapActivity extends AppCompatActivity {
 
-    private static final String KEY  = "92d4f72edb2b6dcef6e8a6a60cf88d4f"; // 天地图密钥
+    private static final String KEY  = "82336205e2fbc3838263aeb80c78112a"; // 天地图密钥
     private double lon, lat,bearing; // 经度 纬度 方位角
     private SweetSheet axSweetSheet; // 控件：拖拽菜单
     private GPSLocationManager gpsLocationListener; // GPS位置管理对象
@@ -103,6 +104,8 @@ public class MapActivity extends AppCompatActivity {
                 catch (Exception e){ ToastUtil.showToast("还未设置起终点"); }
                 break;
             case R.id.axBtn_Clear: // 清理导航路径
+                axEt_From.setText("");
+                axEt_To.setText("");
                 axMapView.getGraphicsOverlays().clear();
                 break;
         }
@@ -187,7 +190,6 @@ public class MapActivity extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         double lon_viewCenter = axMapView.getVisibleArea().getExtent().getCenter().getX(), // MapView当前视野范围中心点坐标
                lat_viewCenter = axMapView.getVisibleArea().getExtent().getCenter().getY();
-        ToastUtil.showToast(lon_viewCenter + ", " + lat_viewCenter);
         try {
             jsonObject.put("keyWord", keyword);
             jsonObject.put("level", "15");
@@ -221,7 +223,6 @@ public class MapActivity extends AppCompatActivity {
                                 MenuEntity menuEntity = new MenuEntity();
                                 menuEntity.title = name;
                                 list.add(menuEntity);
-                                System.out.println("%%%%%%%%%%" + lonlat + ": " +  name);
                             }
                             axSweetSheet = new SweetSheet(axRLayout);
                             axSweetSheet.setMenuList(list);
@@ -240,7 +241,7 @@ public class MapActivity extends AppCompatActivity {
                             InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(MapActivity.this.INPUT_METHOD_SERVICE);
                             inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), 0);
                             // 显示弹窗
-                            axSweetSheet.show();
+                            axSweetSheet.toggle();
                         } catch (JSONException e) { e.printStackTrace(); }
                     }
                 });
@@ -328,15 +329,23 @@ public class MapActivity extends AppCompatActivity {
     private void showInfo(){
         pointList.add(new Point(lon, lat, SpatialReferences.getWgs84()));
         double distance = 0.0;
-        for(int i = 0; i < pointList.size(); i++)
-            if(i > 0)
+        for(int i = 0; i < pointList.size(); i++) {
+            if (i > 0) {
                 distance += getDistance(pointList.get(i - 1).getX(), pointList.get(i - 1).getY(), pointList.get(i).getX(), pointList.get(i).getY());
-         nowTime = new Date().getTime();
-        double second = (nowTime - startTime) / 1000.0;
-        double m = distance * 1000;
-        double ms = Math.round((m/second) * 10) / 10.0;
-        distance = Math.round(distance * 1000) / 1000.0;
-
+            }
+        }
+        if(distance != 0) {
+            nowTime = new Date().getTime();
+            double second = (nowTime - startTime) / 1000.0;
+            double m = distance * 1000;
+            double ms = Math.round((m / second) * 10) / 10.0;
+            distance = Math.round(distance * 1000) / 1000.0;
+            String str_distance = distance + " km";
+            String str_ms = ms + " m/s";
+            String str_kmh = Math.round(ms * 3.6 * 10) / 10.0 + "  km/h";
+            String str_speed = Math.round(second / 60.0 / distance * 10) / 10.0 + " min/km";
+            axTv_info.setText(String.format("路程：%1$s；配速：%2$s", str_distance, str_speed));
+        }
     }
 
     // 根据经纬度计算距离
@@ -346,6 +355,7 @@ public class MapActivity extends AppCompatActivity {
         double a = rad(lat1) - rad(lat2);
         double b = rad(lon1) - rad(lon2);
         double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.pow(Math.sin(b / 2), 2)));
+        s = s * EARTH_RADIUS;
         return s;
     }
 
@@ -354,7 +364,17 @@ public class MapActivity extends AppCompatActivity {
         Point point = new Point(lon, lat, SpatialReferences.getWgs84());
         GraphicsOverlay overlay = new GraphicsOverlay();
         axMapView.getGraphicsOverlays().add(overlay);
-        overlay.getGraphics().add(new Graphic(point, pictureMarkerSymbol));
+        BitmapDrawable bitmap = (BitmapDrawable) ContextCompat.getDrawable(MapActivity.this, R.drawable.footprints);
+        PictureMarkerSymbol symbol = new PictureMarkerSymbol(bitmap);
+        symbol.setWidth(40);
+        symbol.setHeight(40);
+        symbol.setAngle(new Random().nextInt(360));
+        symbol.addDoneLoadingListener(new Runnable() {
+            @Override
+            public void run() {
+                overlay.getGraphics().add(new Graphic(point, symbol));
+            }
+        });
     }
     private void drawTrajectory(double lon, double lat, BitmapDrawable bitmapDrawable){
         final PictureMarkerSymbol symbol = new PictureMarkerSymbol(bitmapDrawable);
