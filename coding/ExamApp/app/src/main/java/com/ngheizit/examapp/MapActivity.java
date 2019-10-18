@@ -59,7 +59,7 @@ public class MapActivity extends AppCompatActivity {
     private GPSLocationManager gpsLocationListener; // GPS位置管理对象
     private String pointStart, pointEnd; // 导航起点和终点
     private boolean isTrajectory = false; // 轨迹记录开启关闭控制事件
-    private String imageUrl = "https://ngheizit.fun/default-img/joker.png"; // 轨迹样式图片
+    private String imageUrl = "https://ngheizit.fun/Older/img/Woodstock.png"; // 轨迹样式图片
     private PictureMarkerSymbol pictureMarkerSymbol; // 轨迹样式
     private long startTime, nowTime; // 轨迹记录开始时间和实时时间
     private List<Point> pointList = new ArrayList<>(); // 轨迹记录点
@@ -94,6 +94,7 @@ public class MapActivity extends AppCompatActivity {
                 BitmapDrawable closeBitmap = (BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.close);
                 BitmapDrawable traBitmap = (BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.trajectory);
                 if(isTrajectory) {
+                    pointList.clear();
                     axBtn_Trajectory.setBackground(closeBitmap);
                     startTime = new Date().getTime();
                 }
@@ -123,6 +124,7 @@ public class MapActivity extends AppCompatActivity {
         // 设置位置管理
         gpsLocationListener = GPSLocationManager.getInstances(MapActivity.this);
         gpsLocationListener.start(new Listener());
+        gpsLocationListener.setMinDistance(10);
 
         // 初始化菜单（菜单绑定）
         axSweetSheet = new SweetSheet(axRLayout);
@@ -280,7 +282,7 @@ public class MapActivity extends AppCompatActivity {
                 });
     }
 
-    // 绘制导航路径 包含起终点符号样式
+    // 绘制导航路径 包含起终点符号样式 并且更新地图显示范围
     private void drawLine(String[] points){
         // 点击绘线
         PolylineBuilder lineBuilder = new PolylineBuilder(SpatialReferences.getWgs84());
@@ -304,6 +306,10 @@ public class MapActivity extends AppCompatActivity {
         BitmapDrawable ePointBitmap = (BitmapDrawable) ContextCompat.getDrawable(this, R.drawable.endpoint);
         drawTrajectory(Double.valueOf(points[0].split(",")[0]), Double.valueOf(points[0].split(",")[1]), sPointBitmap);
         drawTrajectory(Double.valueOf(points[points.length - 1].split(",")[0]), Double.valueOf(points[points.length - 1].split(",")[1]), ePointBitmap);
+
+        // 设置地图视野范围
+        axMapView.setViewpointGeometryAsync(overlay.getExtent());
+        axMapView.setViewpointScaleAsync(axMapView.getMapScale() * 1.5);
     }
 
     // GPS位置监听对象
@@ -364,17 +370,8 @@ public class MapActivity extends AppCompatActivity {
         Point point = new Point(lon, lat, SpatialReferences.getWgs84());
         GraphicsOverlay overlay = new GraphicsOverlay();
         axMapView.getGraphicsOverlays().add(overlay);
-        BitmapDrawable bitmap = (BitmapDrawable) ContextCompat.getDrawable(MapActivity.this, R.drawable.footprints);
-        PictureMarkerSymbol symbol = new PictureMarkerSymbol(bitmap);
-        symbol.setWidth(40);
-        symbol.setHeight(40);
-        symbol.setAngle(new Random().nextInt(360));
-        symbol.addDoneLoadingListener(new Runnable() {
-            @Override
-            public void run() {
-                overlay.getGraphics().add(new Graphic(point, symbol));
-            }
-        });
+        Graphic graphic = new Graphic(point, pictureMarkerSymbol);
+        overlay.getGraphics().add(new Graphic(point, pictureMarkerSymbol));
     }
     private void drawTrajectory(double lon, double lat, BitmapDrawable bitmapDrawable){
         final PictureMarkerSymbol symbol = new PictureMarkerSymbol(bitmapDrawable);
