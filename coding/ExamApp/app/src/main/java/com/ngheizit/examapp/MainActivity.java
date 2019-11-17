@@ -24,8 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.axSceneView_HelloWorld)
     SceneView axSceneView;
+    @BindView(R.id.axEditText_Usename)
+    EditText axEditText_Usename;
     @BindView(R.id.axEditText_Password)
-    EditText axEditText;
+    EditText axEditText_Password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 设置登录监听
     private void setSignIn(){
-        axEditText.addTextChangedListener(new TextWatcher() {
+        axEditText_Password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override

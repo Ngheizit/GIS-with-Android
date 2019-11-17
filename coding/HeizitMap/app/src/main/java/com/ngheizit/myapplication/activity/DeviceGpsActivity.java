@@ -82,7 +82,7 @@ public class DeviceGpsActivity extends AppCompatActivity {
         this.btn_Trajectory = findViewById(R.id.btn_trajectory);
 
         // 生成底图
-        ArcGISMap pMap = new ArcGISMap(Basemap.createOpenStreetMap());
+        ArcGISMap pMap = new ArcGISMap(Basemap.createDarkGrayCanvasVector());
         pMap.loadAsync();
         this.pMapView.setMap(pMap);
 
@@ -179,11 +179,48 @@ public class DeviceGpsActivity extends AppCompatActivity {
         });
 
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+        String url_firefly = "https://ngheizit.fun/default-img/firefly.png";
+        String url_firefly2 = "https://ngheizit.fun/default-img/firefly2.png";
+        String url_firefly3 = "https://ngheizit.fun/default-img/firefly3.png";
+        String url_firefly4 = "https://ngheizit.fun/default-img/firefly4.png";
+        PictureMarkerSymbol[] symbols_fly = new PictureMarkerSymbol[40];
+        PictureMarkerSymbol[] symbols_fly2 = new PictureMarkerSymbol[40];
+        PictureMarkerSymbol[] symbols_fly3 = new PictureMarkerSymbol[40];
+        PictureMarkerSymbol[] symbols_fly4 = new PictureMarkerSymbol[40];
+        for(int i = 0; i < 40; i ++){
+            symbols_fly[i] = new PictureMarkerSymbol(url_firefly);
+            symbols_fly[i].loadAsync();
+            symbols_fly[i].setHeight(i);
+            symbols_fly[i].setWidth(i);
+        }
+        for(int i = 0; i < 40; i ++){
+            symbols_fly2[i] = new PictureMarkerSymbol(url_firefly2);
+            symbols_fly2[i].loadAsync();
+            symbols_fly2[i].setHeight(i);
+            symbols_fly2[i].setWidth(i);
+        }
+        for(int i = 0; i < 40; i ++){
+            symbols_fly3[i] = new PictureMarkerSymbol(url_firefly3);
+            symbols_fly3[i].loadAsync();
+            symbols_fly3[i].setHeight(i);
+            symbols_fly3[i].setWidth(i);
+        }
+        for(int i = 0; i < 40; i ++){
+            symbols_fly4[i] = new PictureMarkerSymbol(url_firefly4);
+            symbols_fly4[i].loadAsync();
+            symbols_fly4[i].setHeight(i);
+            symbols_fly4[i].setWidth(i);
+        }
+        PictureMarkerSymbol[][] symbolTable = new PictureMarkerSymbol[][]{
+                symbols_fly, symbols_fly2, symbols_fly3, symbols_fly4
+        };
+
         String url_china = "https://ngheizit.fun/default-img/joker.png";
         PictureMarkerSymbol symbol = new PictureMarkerSymbol(url_china);
         symbol.loadAsync();
-        symbol.setHeight(20);
-        symbol.setWidth(20);
+        symbol.setHeight(40);
+        symbol.setWidth(40);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 5, new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -215,7 +252,12 @@ public class DeviceGpsActivity extends AppCompatActivity {
                     Point point = new Point(lon, lat, SpatialReferences.getWgs84());
                     GraphicsOverlay overlay = new GraphicsOverlay();
                     pMapView.getGraphicsOverlays().add(overlay);
-                    overlay.getGraphics().add(new Graphic(point, symbol));
+
+                    int row = new Random().nextInt(40);
+                    int col = new Random().nextInt(40);
+
+
+                    overlay.getGraphics().add(new Graphic(point, symbolTable[row][col]));
 
                 }catch (Exception e){ }
             }
