@@ -320,6 +320,7 @@ public class MapActivity extends AppCompatActivity {
             lon = location.getLongitude();
             lat = location.getLatitude();
             bearing = location.getBearing();
+            System.out.println(lat);
             if(isTrajectory) {
                 drawTrajectory(lon, lat);
                 showInfo();
